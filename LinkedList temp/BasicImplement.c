@@ -125,6 +125,26 @@ void printList(const LL* list) {
 }
 
 
+void sortList(LL* list) {
+    if (list->head == NULL || list->head->next == NULL) 
+        return;
+
+    Node* current;
+    Node* index;
+    int temp;
+
+    for (current = list->head; current != NULL; current = current->next) {
+        for (index = current->next; index != NULL; index = index->next) {
+            if (current->data > index->data) {
+                temp = current->data;
+                current->data = index->data;
+                index->data = temp;
+            }
+        }
+    }
+}
+
+
 // Main function to test the implementation
 int main() {
     LL list;
