@@ -115,7 +115,7 @@ int main(){
                 pop(&s);
             }
             else {
-                while(!isEmpty(&s) && precedence(peek(&s))>=precedence(token)){
+                while(!isEmpty(&s) && precedence(peek(&s))>precedence(token)){
                     prefix[j++] = pop(&s);
                 }
 
