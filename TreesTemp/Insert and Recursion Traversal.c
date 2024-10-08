@@ -3,21 +3,21 @@
 
 typedef struct Node {
     int data;
-    struct Node* llink; // Left link
-    struct Node* rlink; // Right link
+    struct Node* llink;
+    struct Node* rlink;
 } Node;
 
 typedef struct Tree {
-    Node* root; // Root of the tree
-    int size;   // Number of nodes in the tree
+    Node* root;
+    int size;
 } Tree;
 
 // Function to create a new node
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = data;
-    newNode->llink = NULL; // Initialize left link
-    newNode->rlink = NULL; // Initialize right link
+    newNode->llink = NULL;
+    newNode->rlink = NULL;
     return newNode;
 }
 
@@ -34,38 +34,30 @@ void insertNode(Tree* tree, int data, const char* direction) {
         tree->size++;
         return;
     }
-    
+
     Node* current = tree->root;
     for (int i = 0; direction[i] != '\0'; i++) {
         if (direction[i] == 'l') {
             if (current->llink == NULL) {
-                current->llink = createNode(0); // Create a placeholder node if null
+                current->llink = createNode(0);
             }
             current = current->llink;
         } else if (direction[i] == 'r') {
             if (current->rlink == NULL) {
-                current->rlink = createNode(0); // Create a placeholder node if null
+                current->rlink = createNode(0);
             }
             current = current->rlink;
         } else {
             printf("Invalid direction: %c\n", direction[i]);
-            return; // Exit if an invalid direction is encountered
+            return;
         }
     }
-    
-    current->data = data; // Set the actual data at the last node
+
+    current->data = data;
     tree->size++;
 }
 
-// Preorder traversal
-void preorder(Node* root) {
-    if (root == NULL) return;
-    printf("%d ", root->data);
-    preorder(root->llink);
-    preorder(root->rlink);
-}
-
-// Inorder traversal
+// Recursive inorder traversal
 void inorder(Node* root) {
     if (root == NULL) return;
     inorder(root->llink);
@@ -73,7 +65,15 @@ void inorder(Node* root) {
     inorder(root->rlink);
 }
 
-// Postorder traversal
+// Recursive preorder traversal
+void preorder(Node* root) {
+    if (root == NULL) return;
+    printf("%d ", root->data);
+    preorder(root->llink);
+    preorder(root->rlink);
+}
+
+// Recursive postorder traversal
 void postorder(Node* root) {
     if (root == NULL) return;
     postorder(root->llink);
@@ -86,35 +86,29 @@ int main() {
     Tree tree;
     initializeTree(&tree);
 
-    // Create a sample tree with depth 3 and 6 elements
-    insertNode(&tree, 1, "");       // Root
-    insertNode(&tree, 2, "l");      // Left of root
-    insertNode(&tree, 3, "r");      // Right of root
-    insertNode(&tree, 4, "ll");     // Left of left
-    insertNode(&tree, 5, "lr");     // Right of left
-    insertNode(&tree, 6, "rl");     // Left of right
-
-    // Insert the 7th element
-    insertNode(&tree, 7, "rr");      // Right of right
-
-    // Output the traversals
-    printf("Preorder traversal: ");
-    preorder(tree.root);
-    printf("\n");
+    insertNode(&tree, 1, "");    // Root
+    insertNode(&tree, 2, "l");   // Left of root
+    insertNode(&tree, 3, "r");   // Right of root
+    insertNode(&tree, 4, "ll");  // Left of left child
+    insertNode(&tree, 5, "lr");  // Right of left child
+    insertNode(&tree, 6, "rl");  // Left of right child
+    insertNode(&tree, 7, "rr");  // Right of right child
+    insertNode(&tree, 8, "lll"); // Left of left's left child
+    insertNode(&tree, 9, "llr"); // Right of left's left child
+    insertNode(&tree, 10, "lrl"); // Left of left's right child
+ // Right of root
 
     printf("Inorder traversal: ");
     inorder(tree.root);
     printf("\n");
 
+    printf("Preorder traversal: ");
+    preorder(tree.root);
+    printf("\n");
+
     printf("Postorder traversal: ");
     postorder(tree.root);
     printf("\n");
-
-    // Output tree size
-    printf("Tree size: %d\n", tree.size);
-
-    // Free allocated memory (optional in this small example)
-    // Memory freeing code would go here
 
     return 0;
 }
