@@ -73,6 +73,16 @@ void preorder(Node* root) {
     preorder(root->rlink);
 }
 
+// Recursive search function
+int search(Node* root, int value) {
+    if (root == NULL) return 0; // Not found
+    if (root->data == value) return 1; // Found
+
+    // Search in left and right subtrees
+    return search(root->llink, value) || search(root->rlink, value);
+}
+
+
 // Recursive postorder traversal
 void postorder(Node* root) {
     if (root == NULL) return;
