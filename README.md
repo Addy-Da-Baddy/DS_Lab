@@ -11,4 +11,4 @@
 9. **Lab 9: Polynomials Using Linked List and Circular List**
 10. **Lab 10: Trees**
 11. **Lab 11: Binary Search Trees**
-12. **Lab 12: Sorting Techniques**
+12. **Lab 12: Graphs**
