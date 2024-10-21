@@ -20,16 +20,28 @@ tnode* createNode(int value) {
 }
 
 
-tnode* insert(tnode* root, int value){
-        if  (root==NULL){
-            return createNode(value);
-        }
+tnode* insert(tnode* root, int value) {
+    // Base case: If root is NULL, create a new node and return it
+    if (root == NULL) {
+        return createNode(value);
+    }
 
-        if (value < root->data)
-            root->llink = insert(root->llink,value);
-        else
-            root->rlink = insert(root->rlink,value);
+    // If the value already exists, return root without inserting
+    if (value == root->data) {
+        printf("Value %d already exists in the tree.\n", value);
+        return root;
+    }
+
+    // Recur down the tree to find the correct position
+    if (value < root->data) {
+        root->llink = insert(root->llink, value);  // Insert in the left subtree
+    } else {
+        root->rlink = insert(root->rlink, value);  // Insert in the right subtree
+    }
+
+    return root;  // Return the (possibly updated) root
 }
+
 
 tnode* findMin(tnode* root) {
     while (root && root->llink) {
@@ -38,31 +50,54 @@ tnode* findMin(tnode* root) {
     return root;
 }
 
-
-tnode* deleteNode(tnode* root, int value) {
-    if (root == NULL) return root;
-
-    if (value < root->data) {
-        root->llink = deleteNode(root->llink, value);
-    } else if (value > root->data) {
-        root->rlink = deleteNode(root->rlink, value);
-    } else {
-        if (root->llink == NULL) {
-            tnode* temp = root->rlink;
-            free(root);
-            return temp;
-        } else if (root->rlink == NULL) {
-            tnode* temp = root->llink;
-            free(root);
-            return temp;
-        }
-
-        tnode* temp = findMin(root->rlink);
-        root->data = temp->data;
-        root->rlink = deleteNode(root->rlink, temp->data);
+tnode* delNode(tnode* root, int val) {
+    // Case 0: Base case, tree is empty
+    if (root == NULL) {
+        return root;
     }
+
+    // Traverse the tree to find the node to delete
+    if (root->data > val) {
+        root->llink = delNode(root->llink, val);  // Go to the left subtree
+    } else if (root->data < val) {
+        root->rlink = delNode(root->rlink, val);  // Go to the right subtree
+    } else {
+        // FOUND THE NODE TO DELETE
+
+        // Case 1: No children (leaf node)
+        if (root->llink == NULL && root->rlink == NULL) {
+            free(root);
+            root = NULL;
+            return root;
+        }
+        // Case 2: Only one child (right child)
+        else if (root->rlink != NULL && root->llink == NULL) {
+            tnode* temp = root;          // Temporarily store the current node
+            root = root->rlink;          // Replace the current node with its right child
+            free(temp);                  // Free the original node
+            return root;
+        }
+        // Case 3: Only one child (left child)
+        else if (root->llink != NULL && root->rlink == NULL) {
+            tnode* temp = root;          // Temporarily store the current node
+            root = root->llink;          // Replace the current node with its left child
+            free(temp);                  // Free the original node
+            return root;
+        }
+        // Case 4: Two children
+        else {
+            // Find the minimum value in the right subtree
+            tnode* min = findMin(root->rlink);
+            // Replace the current node's data with the min value from the right subtree
+            root->data = min->data;
+            // Now, delete the node containing the minimum value from the right subtree
+            root->rlink = delNode(root->rlink, min->data);
+        }
+    }
+
     return root;
 }
+
 
 
 tnode* search(tnode* root, int value) {
