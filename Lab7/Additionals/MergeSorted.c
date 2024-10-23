@@ -1,19 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define the Node structure
 typedef struct Node {
     int data;
     struct Node* next;
 } Node;
 
-// Define the List structure
 typedef struct List {
     int currentSize;
     Node* head;
 } List;
 
-// Function to create a new node
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = data;
@@ -21,13 +18,11 @@ Node* createNode(int data) {
     return newNode;
 }
 
-// Function to initialize a list
 void initList(List* list) {
     list->currentSize = 0;
     list->head = NULL;
 }
 
-// Function to append one list to another
 void appendList(List* listA, List* listB) {
     if (listA->head == NULL) {
         listA->head = listB->head;
@@ -39,11 +34,10 @@ void appendList(List* listA, List* listB) {
         temp->next = listB->head;
     }
     listA->currentSize += listB->currentSize;
-    listB->head = NULL; // Make listB empty after appending
+    listB->head = NULL;
     listB->currentSize = 0;
 }
 
-// Function to sort the linked list using Bubble Sort
 void bubbleSort(List* list) {
     if (list->head == NULL) return;
 
@@ -57,7 +51,6 @@ void bubbleSort(List* list) {
 
         while (ptr1->next != lptr) {
             if (ptr1->data > ptr1->next->data) {
-                // Swap data of nodes
                 int temp = ptr1->data;
                 ptr1->data = ptr1->next->data;
                 ptr1->next->data = temp;
@@ -69,7 +62,6 @@ void bubbleSort(List* list) {
     } while (swapped);
 }
 
-// Function to print the linked list
 void printList(List* list) {
     Node* temp = list->head;
     while (temp != NULL) {
@@ -80,27 +72,47 @@ void printList(List* list) {
 }
 
 int main() {
-    // Initialize lists
     List listX, listY;
     initList(&listX);
     initList(&listY);
 
-    // Create and append nodes to listX
-    listX.head = createNode(1);
-    listX.head->next = createNode(3);
-    listX.head->next->next = createNode(5);
-    listX.currentSize = 3;
+    int n, val;
 
-    // Create and append nodes to listY
-    listY.head = createNode(2);
-    listY.head->next = createNode(4);
-    listY.head->next->next = createNode(6);
-    listY.currentSize = 3;
+    printf("Enter the number of elements in the first list: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d for list 1: ", i + 1);
+        scanf("%d", &val);
+        if (listX.head == NULL) {
+            listX.head = createNode(val);
+        } else {
+            Node* temp = listX.head;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = createNode(val);
+        }
+        listX.currentSize++;
+    }
 
-    // Append listY to listX
+    printf("Enter the number of elements in the second list: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d for list 2: ", i + 1);
+        scanf("%d", &val);
+        if (listY.head == NULL) {
+            listY.head = createNode(val);
+        } else {
+            Node* temp = listY.head;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = createNode(val);
+        }
+        listY.currentSize++;
+    }
+
     appendList(&listX, &listY);
-
-    // Sort the combined list
     bubbleSort(&listX);
 
     printf("Sorted Merged List: ");
@@ -108,3 +120,4 @@ int main() {
 
     return 0;
 }
+
