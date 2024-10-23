@@ -36,14 +36,39 @@ void printTree(tnode* root) {
     printTree(root->rlink);
 }
 
-int main() {
-    tnode* tree1 = createNode(1);
-    tree1->llink = createNode(2);
-    tree1->rlink = createNode(3);
+tnode* insertNode(tnode* root, int value) {
+    if (root == NULL) {
+        return createNode(value);
+    }
+    if (value < root->data) {
+        root->llink = insertNode(root->llink, value);
+    } else {
+        root->rlink = insertNode(root->rlink, value);
+    }
+    return root;
+}
 
-    tnode* tree2 = createNode(1);
-    tree2->llink = createNode(3);
-    tree2->rlink = createNode(2);
+int main() {
+    tnode* tree1 = NULL;
+    tnode* tree2 = NULL;
+
+    int n1, n2, value;
+
+    printf("Enter number of nodes for Tree 1: ");
+    scanf("%d", &n1);
+    printf("Enter values for Tree 1: ");
+    for (int i = 0; i < n1; i++) {
+        scanf("%d", &value);
+        tree1 = insertNode(tree1, value);
+    }
+
+    printf("Enter number of nodes for Tree 2: ");
+    scanf("%d", &n2);
+    printf("Enter values for Tree 2: ");
+    for (int i = 0; i < n2; i++) {
+        scanf("%d", &value);
+        tree2 = insertNode(tree2, value);
+    }
 
     if (areMirrorImages(tree1, tree2)) {
         printf("Tree 1 and Tree 2 are mirror images.\n");
@@ -61,4 +86,3 @@ int main() {
 
     return 0;
 }
-
