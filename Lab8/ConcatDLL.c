@@ -11,7 +11,6 @@ typedef struct DoublyLinkedList {
     Node* head;
 } DLL;
 
-
 void initList(DLL* list);
 Node* createNode(int data);
 void insertRear(int data, DLL* list);
@@ -22,14 +21,24 @@ int main() {
     DLL X1, X2;
     initList(&X1);
     initList(&X2);
+    
+    int n, val;
 
-    insertRear(1, &X1);
-    insertRear(2, &X1);
-    insertRear(3, &X1);
+    printf("Enter number of elements in the first list: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", &val);
+        insertRear(val, &X1);
+    }
 
-    insertRear(4, &X2);
-    insertRear(5, &X2);
-    insertRear(6, &X2);
+    printf("Enter number of elements in the second list: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", &val);
+        insertRear(val, &X2);
+    }
 
     concatenateLists(&X1, &X2);
 
@@ -94,3 +103,4 @@ void concatenateLists(DLL* X1, DLL* X2) {
     lastNodeX1->rlink = X2->head;
     X2->head->llink = lastNodeX1;
 }
+
