@@ -15,11 +15,16 @@ typedef struct Queue {
 } Queue;
 
 void enqueue(Queue* q, tnode* node) {
-    q->nodes[q->rear++] = node;
+    if (q->rear < 100) { // Check if the queue is not full
+        q->nodes[q->rear++] = node;
+    }
 }
 
 tnode* dequeue(Queue* q) {
-    return q->nodes[q->front++];
+    if (!isEmpty(q)) {
+        return q->nodes[q->front++];
+    }
+    return NULL; // Return NULL if the queue is empty
 }
 
 bool isEmpty(Queue* q) {
