@@ -22,15 +22,14 @@ Node* createNode(int coeff, int exp) {
 }
 
 void initList(CircularDoublyLinkedList* list) {
-    list->head = createNode(0, 0); // Header node
-    list->head->next = list->head; // Point to itself
+    list->head = createNode(0, 0);
+    list->head->next = list->head;
     list->head->prev = list->head;
 }
 
 void appendTerm(CircularDoublyLinkedList* poly, int coeff, int exp) {
     Node* newNode = createNode(coeff, exp);
     Node* last = poly->head->prev;
-
     newNode->next = poly->head;
     newNode->prev = last;
     last->next = newNode;
@@ -52,7 +51,6 @@ void displayPoly(CircularDoublyLinkedList* poly) {
 CircularDoublyLinkedList* multiplyPolynomials(CircularDoublyLinkedList* poly1, CircularDoublyLinkedList* poly2) {
     CircularDoublyLinkedList* result = (CircularDoublyLinkedList*)malloc(sizeof(CircularDoublyLinkedList));
     initList(result);
-
     Node* p1 = poly1->head->next;
     while (p1 != poly1->head) {
         Node* p2 = poly2->head->next;
@@ -64,21 +62,32 @@ CircularDoublyLinkedList* multiplyPolynomials(CircularDoublyLinkedList* poly1, C
         }
         p1 = p1->next;
     }
-
     return result;
 }
 
-// Main function for multiplication
+void inputPolynomial(CircularDoublyLinkedList* poly) {
+    int numTerms;
+    printf("Enter the number of terms in the polynomial: ");
+    scanf("%d", &numTerms);
+    for (int i = 0; i < numTerms; i++) {
+        int coeff, exp;
+        printf("Enter coefficient and exponent for term %d (format: coeff exp): ", i + 1);
+        scanf("%d %d", &coeff, &exp);
+        appendTerm(poly, coeff, exp);
+    }
+}
+
 int main() {
     CircularDoublyLinkedList poly1, poly2;
 
     initList(&poly1);
     initList(&poly2);
 
-    appendTerm(&poly1, 5, 4);
-    appendTerm(&poly1, 2, 3);
-    appendTerm(&poly2, 3, 2);
-    appendTerm(&poly2, 4, 0);
+    printf("Input for Polynomial 1:\n");
+    inputPolynomial(&poly1);
+
+    printf("Input for Polynomial 2:\n");
+    inputPolynomial(&poly2);
 
     printf("Polynomial 1: ");
     displayPoly(&poly1);
@@ -90,5 +99,7 @@ int main() {
     printf("Product: ");
     displayPoly(result);
 
+    free(result);
     return 0;
 }
+
