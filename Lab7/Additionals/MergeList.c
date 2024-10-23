@@ -40,22 +40,17 @@ void mergeLists(LL* list1, LL* list2, LL* list3) {
     Node* temp2 = list2->head;
     
     while (temp1 != NULL && temp2 != NULL) {
-        // Append from list1
         appendNode(list3, temp1->data);
         temp1 = temp1->next;
-
-        // Append from list2
         appendNode(list3, temp2->data);
         temp2 = temp2->next;
     }
     
-    // If list1 still has remaining nodes
     while (temp1 != NULL) {
         appendNode(list3, temp1->data);
         temp1 = temp1->next;
     }
     
-    // If list2 still has remaining nodes
     while (temp2 != NULL) {
         appendNode(list3, temp2->data);
         temp2 = temp2->next;
@@ -73,17 +68,26 @@ void printList(LL* list) {
 
 int main() {
     LL list1, list2, list3;
-
     initList(&list1);
     initList(&list2);
-    
-    appendNode(&list1, 1);
-    appendNode(&list1, 3);
-    appendNode(&list1, 5);
 
-    appendNode(&list2, 2);
-    appendNode(&list2, 4);
-    appendNode(&list2, 6);
+    int n, val;
+
+    printf("Enter number of elements in first list: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", &val);
+        appendNode(&list1, val);
+    }
+
+    printf("Enter number of elements in second list: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", &val);
+        appendNode(&list2, val);
+    }
 
     mergeLists(&list1, &list2, &list3);
 
