@@ -83,17 +83,30 @@ CircularDoublyLinkedList* addPolynomials(CircularDoublyLinkedList* poly1, Circul
     return result;
 }
 
-// Main function for addition
+void inputPolynomial(CircularDoublyLinkedList* poly) {
+    int numTerms;
+    printf("Enter the number of terms in the polynomial: ");
+    scanf("%d", &numTerms);
+
+    for (int i = 0; i < numTerms; i++) {
+        int coeff, exp;
+        printf("Enter coefficient and exponent for term %d (format: coeff exp): ", i + 1);
+        scanf("%d %d", &coeff, &exp);
+        appendTerm(poly, coeff, exp);
+    }
+}
+
 int main() {
     CircularDoublyLinkedList poly1, poly2;
 
     initList(&poly1);
     initList(&poly2);
 
-    appendTerm(&poly1, 5, 3);
-    appendTerm(&poly1, 2, 1);
-    appendTerm(&poly2, 3, 2);
-    appendTerm(&poly2, 2, 1);
+    printf("Input for Polynomial 1:\n");
+    inputPolynomial(&poly1);
+
+    printf("Input for Polynomial 2:\n");
+    inputPolynomial(&poly2);
 
     printf("Polynomial 1: ");
     displayPoly(&poly1);
@@ -105,5 +118,8 @@ int main() {
     printf("Sum: ");
     displayPoly(result);
 
+    free(result); 
+
     return 0;
 }
+
