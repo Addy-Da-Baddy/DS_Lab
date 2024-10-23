@@ -67,8 +67,6 @@ LinkedList* addPolynomials(LinkedList* poly1, LinkedList* poly2) {
     Node* p1 = poly1->head;
     Node* p2 = poly2->head;
 
-
-
     while (p1 != NULL) {
         appendTerm(result, p1->coeff, p1->exp);
         p1 = p1->next;
@@ -84,26 +82,56 @@ LinkedList* addPolynomials(LinkedList* poly1, LinkedList* poly2) {
 int main() {
     LinkedList poly1;
     LinkedList poly2;
-
     initList(&poly1);
     initList(&poly2);
 
-    appendTerm(&poly1, 5, 3);
-    appendTerm(&poly1, 2, 1);
+    int choice, coeff, exp;
 
-    appendTerm(&poly2, 3, 2);
-    appendTerm(&poly2, 2, 1);
+    do {
+        printf("\nPolynomial Operations Menu:\n");
+        printf("1. Add term to Polynomial 1\n");
+        printf("2. Add term to Polynomial 2\n");
+        printf("3. Display Polynomial 1\n");
+        printf("4. Display Polynomial 2\n");
+        printf("5. Add Polynomials\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-    printf("Polynomial 1: ");
-    displayPoly(&poly1);
-
-    printf("Polynomial 2: ");
-    displayPoly(&poly2);
-
-    LinkedList* result = addPolynomials(&poly1, &poly2);
-    printf("Sum: ");
-    displayPoly(result);
-
+        switch (choice) {
+            case 1:
+                printf("Enter coefficient and exponent for Polynomial 1: ");
+                scanf("%d %d", &coeff, &exp);
+                appendTerm(&poly1, coeff, exp);
+                break;
+            case 2:
+                printf("Enter coefficient and exponent for Polynomial 2: ");
+                scanf("%d %d", &coeff, &exp);
+                appendTerm(&poly2, coeff, exp);
+                break;
+            case 3:
+                printf("Polynomial 1: ");
+                displayPoly(&poly1);
+                break;
+            case 4:
+                printf("Polynomial 2: ");
+                displayPoly(&poly2);
+                break;
+            case 5: {
+                LinkedList* result = addPolynomials(&poly1, &poly2);
+                printf("Sum: ");
+                displayPoly(result);
+                free(result); // Free the memory for the result
+                break;
+            }
+            case 6:
+                printf("Exiting...\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 6);
 
     return 0;
 }
+
