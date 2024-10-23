@@ -50,8 +50,19 @@ int evaluate(tnode* root) {
 }
 
 int main() {
-    char postfix[] = "23*54*+"; // Example: (2 * 3) + (5 * 4)
+    char postfix[100]; // Buffer for user input
+
+    printf("Enter a postfix expression: ");
+    fgets(postfix, sizeof(postfix), stdin); // Read user input
+
+    // Remove newline character if present
+    size_t len = strlen(postfix);
+    if (len > 0 && postfix[len - 1] == '\n') {
+        postfix[len - 1] = '\0';
+    }
+
     tnode* root = constructTree(postfix);
     printf("Result of expression: %d\n", evaluate(root));
+
     return 0;
 }
