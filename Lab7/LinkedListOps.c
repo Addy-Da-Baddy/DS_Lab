@@ -24,12 +24,12 @@ void initList(LL* list) {
 }
 
 void insertAfter(LL* list, int data, int prevData) {
-    Node* newNode = createNode(data);
     if (list->head == NULL) {
-        list->head = newNode;
+        printf("List is empty. Nowhere to insert after %d.\n", prevData);
         return;
     }
 
+    Node* newNode = createNode(data);
     Node* temp = list->head;
     while (temp != NULL && temp->data != prevData) {
         temp = temp->next;
@@ -41,19 +41,21 @@ void insertAfter(LL* list, int data, int prevData) {
     } else {
         newNode->next = temp->next;
         temp->next = newNode;
+        list->size++;
     }
 }
 
 void insertBefore(LL* list, int data, int beforeData) {
-    Node* newNode = createNode(data);
     if (list->head == NULL) {
-        list->head = newNode;
+        printf("List is empty. Nowhere to insert before %d.\n", beforeData);
         return;
     }
 
+    Node* newNode = createNode(data);
     if (list->head->data == beforeData) {
         newNode->next = list->head;
         list->head = newNode;
+        list->size++;
         return;
     }
 
@@ -68,12 +70,13 @@ void insertBefore(LL* list, int data, int beforeData) {
     } else {
         newNode->next = temp->next;
         temp->next = newNode;
+        list->size++;
     }
 }
 
 void deleteData(LL* list, int data) {
     if (list->head == NULL) {
-        printf("List is empty.\n");
+        printf("List is empty. Nothing to delete.\n");
         return;
     }
 
@@ -81,6 +84,7 @@ void deleteData(LL* list, int data) {
         Node* oldHead = list->head;
         list->head = list->head->next;
         free(oldHead);
+        list->size--;
         return;
     }
 
@@ -96,6 +100,7 @@ void deleteData(LL* list, int data) {
     } else {
         prev->next = temp->next;
         free(temp);
+        list->size--;
     }
 }
 
@@ -162,6 +167,7 @@ void insertInSorted(LL* list, int data) {
     if (list->head == NULL || list->head->data >= data) {
         newNode->next = list->head;
         list->head = newNode;
+        list->size++;
         return;
     }
 
@@ -174,8 +180,8 @@ void insertInSorted(LL* list, int data) {
 
     newNode->next = current;
     prev->next = newNode;
+    list->size++;
 }
-
 
 void displayMenu() {
     printf("\nMenu:\n");
