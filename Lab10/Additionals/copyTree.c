@@ -34,12 +34,29 @@ void printTree(tnode* root) {
     printTree(root->rlink);
 }
 
+tnode* insertNode(tnode* root, int value) {
+    if (root == NULL) {
+        return createNode(value);
+    }
+    if (value < root->data) {
+        root->llink = insertNode(root->llink, value);
+    } else {
+        root->rlink = insertNode(root->rlink, value);
+    }
+    return root;
+}
+
 int main() {
-    tnode* originalTree = createNode(1);
-    originalTree->llink = createNode(2);
-    originalTree->rlink = createNode(3);
-    originalTree->llink->llink = createNode(4);
-    originalTree->llink->rlink = createNode(5);
+    tnode* originalTree = NULL;
+    int n, value;
+
+    printf("Enter number of nodes for the original tree: ");
+    scanf("%d", &n);
+    printf("Enter values for the original tree: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &value);
+        originalTree = insertNode(originalTree, value);
+    }
 
     tnode* copiedTree = copyTree(originalTree);
 
@@ -53,3 +70,4 @@ int main() {
 
     return 0;
 }
+
