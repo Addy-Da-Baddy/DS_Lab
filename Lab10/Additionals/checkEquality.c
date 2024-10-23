@@ -36,34 +36,44 @@ void printTree(tnode* root) {
     printTree(root->rlink);
 }
 
+tnode* insertNode(tnode* root, int value) {
+    if (root == NULL) {
+        return createNode(value);
+    }
+    if (value < root->data) {
+        root->llink = insertNode(root->llink, value);
+    } else {
+        root->rlink = insertNode(root->rlink, value);
+    }
+    return root;
+}
+
 int main() {
-    tnode* tree1 = createNode(1);
-    tree1->llink = createNode(2);
-    tree1->rlink = createNode(3);
-    tree1->llink->llink = createNode(4);
-    tree1->llink->rlink = createNode(5);
+    tnode* tree1 = NULL;
+    tnode* tree2 = NULL;
 
-    tnode* tree2 = createNode(1);
-    tree2->llink = createNode(2);
-    tree2->rlink = createNode(3);
-    tree2->llink->llink = createNode(4);
-    tree2->llink->rlink = createNode(5);
+    int n1, n2, value;
 
-    tnode* tree3 = createNode(1);
-    tree3->llink = createNode(2);
-    tree3->rlink = createNode(3);
-    tree3->llink->llink = createNode(6);
+    printf("Enter number of nodes for Tree 1: ");
+    scanf("%d", &n1);
+    printf("Enter values for Tree 1: ");
+    for (int i = 0; i < n1; i++) {
+        scanf("%d", &value);
+        tree1 = insertNode(tree1, value);
+    }
+
+    printf("Enter number of nodes for Tree 2: ");
+    scanf("%d", &n2);
+    printf("Enter values for Tree 2: ");
+    for (int i = 0; i < n2; i++) {
+        scanf("%d", &value);
+        tree2 = insertNode(tree2, value);
+    }
 
     if (areTreesEqual(tree1, tree2)) {
         printf("Tree 1 and Tree 2 are equal.\n");
     } else {
         printf("Tree 1 and Tree 2 are not equal.\n");
-    }
-
-    if (areTreesEqual(tree1, tree3)) {
-        printf("Tree 1 and Tree 3 are equal.\n");
-    } else {
-        printf("Tree 1 and Tree 3 are not equal.\n");
     }
 
     printf("In-Order Traversal of Tree 1: ");
@@ -73,11 +83,6 @@ int main() {
     printf("In-Order Traversal of Tree 2: ");
     printTree(tree2);
     printf("\n");
-
-    printf("In-Order Traversal of Tree 3: ");
-    printTree(tree3);
-    printf("\n");
-
 
     return 0;
 }
