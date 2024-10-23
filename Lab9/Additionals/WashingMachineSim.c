@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 typedef struct Node {
     char name[50];
-    int duration; // in minutes
+    int duration;
     struct Node* next;
     struct Node* prev;
 } Node;
@@ -24,8 +25,8 @@ Node* createNode(const char* name, int duration) {
 }
 
 void initList(CircularDoublyLinkedList* list) {
-    list->head = createNode("", 0); // Header node
-    list->head->next = list->head; // Point to itself
+    list->head = createNode("", 0);
+    list->head->next = list->head;
     list->head->prev = list->head;
 }
 
@@ -73,14 +74,28 @@ void simulateWashingMachine(CircularDoublyLinkedList* list) {
     }
 }
 
+void inputQueue(CircularDoublyLinkedList* queue) {
+    char name[50];
+    int duration, more;
+
+    do {
+        printf("Enter the name of the person: ");
+        scanf("%s", name);
+        printf("Enter the duration (in minutes): ");
+        scanf("%d", &duration);
+        enqueue(queue, name, duration);
+        printf("Do you want to add another person? (1 for Yes, 0 for No): ");
+        scanf("%d", &more);
+    } while (more);
+}
+
 int main() {
     CircularDoublyLinkedList queue;
     initList(&queue);
 
-    enqueue(&queue, "Alice", 7);
-    enqueue(&queue, "Bob", 5);
-    enqueue(&queue, "Charlie", 2);
+    inputQueue(&queue);
 
+    printf("\nStarting the washing machine simulation...\n");
     simulateWashingMachine(&queue);
 
     return 0;
