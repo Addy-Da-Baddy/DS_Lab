@@ -120,18 +120,26 @@ void insertNode(BT* tree, int data) {
 }
 
 // Find parent of a node
-tnode* findParent(tnode* root, int value, tnode* parent) {
-    if (root == NULL) {
+node* findParent(node* root, int target) {
+    // Base case: if root is NULL or the root itself is the target
+    if (root == NULL || root->data == target) {
         return NULL;
     }
-    if (root->data == value) {
-        return parent;
+
+    // Check if either the left or right child is the target node
+    if ((root->llink != NULL && root->llink->data == target) || 
+        (root->rlink != NULL && root->rlink->data == target)) {
+        return root;  // Found the parent node
     }
-    tnode* left = findParent(root->llink, value, root);
-    if (left != NULL) {
-        return left;
+
+    // Recursively search in the left subtree
+    node* leftParent = findParent(root->llink, target);
+    if (leftParent != NULL) {
+        return leftParent;
     }
-    return findParent(root->rlink, value, root);
+
+    // If not found in left, search in the right subtree
+    return findParent(root->rlink, target);
 }
 
 // Print ancestors of a node
