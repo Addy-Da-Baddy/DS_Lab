@@ -17,6 +17,23 @@ node* createNode(int data){
     return newNode;
 }
 
+node* search(node* root, int val) {
+    if (root == NULL) {
+        return NULL;  // Value not found
+    }
+    if (root->data == val) {
+        return root;  // Value found, return the node
+    }
+
+    // Recursively search in the left and right subtrees
+    node* foundNode = search(root->llink, val);
+    if (foundNode != NULL) {
+        return foundNode;  // If found in the left subtree, return the node
+    }
+
+    return search(root->rlink, val);  // Otherwise, search in the right subtree
+}
+
 
 node* createTree(){
     printf("Enter a node. Press -1 to exit creation: ");
@@ -189,6 +206,49 @@ int findHeight(node* target) {
     int rightHeight = findHeight(target->rlink);
 
     return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+}
+
+int findDepth(node* root, int targetValue) {
+    node* targetNode = search(root, targetValue);  // Search for the node
+    if (targetNode == NULL)
+        return -1;  // Node not found in the tree
+
+    // If the node is the root itself, its depth is 0
+    if (root == targetNode)
+        return 0;
+
+    // Otherwise, calculate the depth by searching the tree
+    int leftDepth = findDepth(root->llink, targetValue);
+    int rightDepth = findDepth(root->rlink, targetValue);
+
+    // If the node is found in either subtree, return the depth
+    if (leftDepth != -1)
+        return leftDepth + 1;
+    if (rightDepth != -1)
+        return rightDepth + 1;
+
+    return -1;  // Target node not found
+}
+
+// Function to find the height of a node (given its value)
+int findHeightNode(node* root, int targetValue) {
+    node* targetNode = search(root, targetValue);  // Search for the node
+    if (targetNode == NULL)
+        return -1;  // Node not found in the tree
+
+    // If the node is NULL, height is -1 (base case)
+    if (targetNode == NULL)
+        return -1;
+
+    // Calculate the height of the left and right subtrees
+    int leftHeight = findHeight(targetNode->llink, targetValue);
+    int rightHeight = findHeight(targetNode->rlink, targetValue);
+
+    // Height of the node is the maximum height of its subtrees + 1
+    if (leftHeight > rightHeight)
+        return leftHeight + 1;
+    else
+        return rightHeight + 1;
 }
 
 
