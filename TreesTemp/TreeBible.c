@@ -157,6 +157,41 @@ int areTreesMirror(node* tree1, node* tree2) {
            areTreesMirror(tree1->rlink, tree2->llink);
 }
 
+
+int findDepth(node* root, node* target) {
+    if (root == NULL)
+        return -1;  // Target not found in the tree
+
+    // Base case: if root is the target node, depth is 0
+    if (root == target)
+        return 0;
+
+    // Check the left and right subtrees for the target node
+    int leftDepth = findDepth(root->llink, target);
+    int rightDepth = findDepth(root->rlink, target);
+
+    // If the node was found in the left or right subtree, add 1 to the depth
+    if (leftDepth != -1)
+        return leftDepth + 1;
+    else if (rightDepth != -1)
+        return rightDepth + 1;
+
+    // If the target node is not found in either subtree, return -1
+    return -1;
+}
+
+
+int findHeight(node* target) {
+    if (target == NULL)
+        return -1;  // Height of an empty subtree is -1
+
+    int leftHeight = findHeight(target->llink);
+    int rightHeight = findHeight(target->rlink);
+
+    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+}
+
+
 int main(){
     node* root1 = createTree();
     printf("Inorder: ");
