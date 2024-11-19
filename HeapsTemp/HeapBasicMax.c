@@ -103,40 +103,7 @@ To convert heapify into min-heapify (for a min-heap):
 
 
 
-void delMax2(Heap* heap) {
-    if (heap->size == 0) {
-        printf("Heap is empty\n");
-        return;
-    }
 
-    // Replace root with the last element in the heap
-    heap->arr[1] = heap->arr[heap->size];
-    heap->size--;  // Reduce heap size
-
-    // Propagate root to its proper position
-    int i = 1;
-
-    while (i <= heap->size) {
-        int leftChildInd = 2 * i;        // Left child index
-        int rightChildInd = 2 * i + 1;   // Right child index
-
-        // Check if the left child exists and is greater than the parent
-        if (leftChildInd <= heap->size && heap->arr[leftChildInd] > heap->arr[i]) {
-            // Swap parent with left child
-            swap(&heap->arr[i], &heap->arr[leftChildInd]);
-            i = leftChildInd;  // Move to the left child and continue
-        } 
-        // Check if the right child exists and is greater than the parent
-        else if (rightChildInd <= heap->size && heap->arr[rightChildInd] > heap->arr[i]) {
-            // Swap parent with right child
-            swap(&heap->arr[i], &heap->arr[rightChildInd]);
-            i = rightChildInd;  // Move to the right child and continue
-        } 
-        else {
-            return;  // Heap property is restored, exit
-        }
-    }
-}
 
 
 // Utility function to swap two elements
